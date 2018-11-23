@@ -25,7 +25,7 @@ function setup() {
 
   let style =  new PIXI.TextStyle({
     fontFamily: "Arial",
-    fontSize: 36,
+    fontSize: 42,
     fill: "white",
     stroke: '#ff3300',
     strokeThickness: 4,
@@ -73,6 +73,8 @@ function setup() {
     sprite.player = pl;
     sprite.x = pl.x;
     sprite.y = pl.y;
+    sprite.scale.x = 0.3;
+    sprite.scale.y = 0.3; 
     sprite.tint = pl.color;
 
     console.log('test');
