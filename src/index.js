@@ -77,7 +77,11 @@ function create() {
 function update() {
 
     if (cursors.left.isDown) {
-        socket.emit('move', )
+        console.log('emitting');
+        socket.emit('move', -10);
+    }
+    if (cursors.right.isDown) {
+        socket.emit('move', 10);
     }
   // ¯ \_(ツ)_/¯ 
   // "surprise me"

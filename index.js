@@ -30,7 +30,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('move', newPos => {
-    pl.x += 10;
+    console.log('moving player...' , newPos);
+    pl.x += newPos;
     io.emit('players', players);
   });
 
