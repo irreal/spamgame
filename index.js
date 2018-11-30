@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const faker = require('faker');
 
-app.use(express.static(__dirname + '/WebContent'));
+app.use(express.static(__dirname + '/public'));
 
 const players = {};
 

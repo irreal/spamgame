@@ -7,10 +7,14 @@ PIXI.utils.sayHello(type)
 
 
 //Create a Pixi Application
-let app = new PIXI.Application({
+var app = new PIXI.Application({
   width: 1920,
   height: 1080
 });
+
+import { test }  from 'test';
+
+test();
 
 //Add the canvas that Pixi automatically created for you to the HTML document
 document.body.appendChild(app.view);

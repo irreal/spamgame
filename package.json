@@ -11,6 +11,13 @@
   "dependencies": {
     "express": "^4.16.4",
     "faker": "^4.1.0",
+    "phaser-ce": "^2.11.1",
     "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "expose-loader": "^0.7.5",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
   }
 }
