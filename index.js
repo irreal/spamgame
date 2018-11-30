@@ -22,6 +22,13 @@ io.on('connection', (socket) => {
 
   console.log('players', players);
 
+  socket.on('name-change', newName =>{
+    delete players[pl.name];
+    pl.name = newName;
+    players[pl.name] = pl;
+    io.emit('players', players);
+  });
+
   socket.on('disconnect', () => {
     delete players[pl.name];
     io.emit('left', pl);

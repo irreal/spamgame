@@ -23,6 +23,12 @@ function setup() {
   let texture = PIXI.utils.TextureCache["idle.png"];
   var socket = io();
 
+  document.getElementById('nickname-form').addEventListener('submit',(e)=>{
+    e.preventDefault();
+    console.log('jeeej');
+    socket.emit('name-change',document.getElementById('nickname-form').children[0].value);
+  });
+
   let style =  new PIXI.TextStyle({
     fontFamily: "Arial",
     fontSize: 42,
@@ -67,6 +73,8 @@ function setup() {
 
     spr.x = pl.x;
     spr.y = pl.y;
+    spr.children[0].setText(pl.name);
+    
   }
   function addPlayer(pl) {
     const sprite = new PIXI.Sprite(texture)
