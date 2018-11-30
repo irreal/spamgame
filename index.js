@@ -29,6 +29,11 @@ io.on('connection', (socket) => {
     io.emit('players', players);
   });
 
+  socket.on('move', newPos => {
+    pl.x += 10;
+    io.emit('players', players);
+  });
+
   socket.on('disconnect', () => {
     delete players[pl.name];
     io.emit('left', pl);
