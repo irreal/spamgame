@@ -3,7 +3,7 @@ import PIXI from 'expose-loader?PIXI!phaser-ce/build/custom/pixi.js';
 import p2 from 'expose-loader?p2!phaser-ce/build/custom/p2.js';
 import Phaser from 'expose-loader?Phaser!phaser-ce/build/custom/phaser-split.js';
 
-var game = new Phaser.Game(1920, 1080, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+var game = new Phaser.Game(1820, 880, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var players = {};
 
@@ -18,8 +18,6 @@ function preload() {
 function create() {
 
   cursors = game.input.keyboard.createCursorKeys();
-
-
 
   document.getElementById('nickname-form').addEventListener('submit',(e)=>{
     e.preventDefault();
@@ -41,9 +39,9 @@ function create() {
   });
 
   socket.on('left', pl =>{
-      const player = players[pl.name];
+      const player = players[pl.id];
       player.destroy();
-      delete players[pl.name];
+      delete players[pl.id];
   });
 
 
@@ -51,7 +49,7 @@ function create() {
   //   sprite.x += 15 * delta;
   // });
   function updatePlayer(pl) {
-    const player = players[pl.name];
+    const player = players[pl.id];
     if (!player) {
       addPlayer(pl);
       return;
@@ -59,16 +57,19 @@ function create() {
 
     player.x = pl.x;
     player.y = pl.y;
+    player.children[0].text = pl.name;
 
   }
   function addPlayer(pl) {
        const player =  game.add.sprite(pl.x, pl.y, 'player');
        player.scale.x = 0.3;
        player.scale.y = 0.3;
-       player.anchor.setTo(0.5, 0.5);
+       player.anchor.setTo(0, 0);
+       const nickname = game.add.text(0,0,pl.name,{ font: "65px Arial", fill: "#ff0044", align: "center" });
+       player.addChild(nickname);
        // sprite.tint = pl.color;
 
-       players[pl.name] = player;
+       players[pl.id] = player;
 
   }
 
@@ -76,12 +77,26 @@ function create() {
   
 function update() {
 
+  const moves = {x: 0, y: 0};
     if (cursors.left.isDown) {
-        console.log('emitting');
-        socket.emit('move', -10);
+      moves.x = -10;
     }
     if (cursors.right.isDown) {
-        socket.emit('move', 10);
+      moves.x = 10;
+    }
+    if (cursors.up.isDown) {
+      moves.y = -10;
+    }
+    if (cursors.down.isDown) {
+      moves.y = 10;
+    }
+
+    if (moves.x || moves.y) {
+      if (moves.x && moves.y) {
+        moves.x = moves.x / 2;
+        moves.y = moves.y / 2;
+      }
+      socket.emit('move', moves);
     }
   // ¯ \_(ツ)_/¯ 
   // "surprise me"

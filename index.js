@@ -15,7 +15,8 @@ io.on('connection', (socket) => {
   pl.x = Math.round(Math.random() * 1320);
   pl.y = Math.round(Math.random() * 880);
   pl.color = Math.round(Math.random() *16777215);
-  players[pl.name] = pl;
+  pl.id = socket.id;
+  players[pl.id] = pl;
   socket.broadcast.emit('joined', pl);
   socket.emit('players', players);
 
@@ -23,20 +24,20 @@ io.on('connection', (socket) => {
   console.log('players', players);
 
   socket.on('name-change', newName =>{
-    delete players[pl.name];
+    delete players[pl.id];
     pl.name = newName;
-    players[pl.name] = pl;
+    players[pl.id] = pl;
     io.emit('players', players);
   });
 
   socket.on('move', newPos => {
-    console.log('moving player...' , newPos);
-    pl.x += newPos;
+    pl.x += newPos.x;
+    pl.y += newPos.y;
     io.emit('players', players);
   });
 
   socket.on('disconnect', () => {
-    delete players[pl.name];
+    delete players[pl.id];
     io.emit('left', pl);
   });
 
